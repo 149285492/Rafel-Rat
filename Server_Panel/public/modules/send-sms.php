@@ -19,7 +19,7 @@ require_once 'module_controller.php';
                             </div>
 
                             <div class="form-group">
-                                <label for="sms-content-id" class="col-lg-2 control-label">Mesaj</label>
+                                <label for="sms-content-id" class="col-lg-2 control-label">Message</label>
                                 <div class="col-lg-10">
                                     <textarea class="form-control" rows="4" id="sms-content-id" placeholder="Sms içeriğini yazınız..."></textarea>
                                 </div>
@@ -27,7 +27,7 @@ require_once 'module_controller.php';
 
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
-                                    <button id="send-btn-id" name="send-btn-id" type="button" class="btn btn-default">Gönder</button>
+                                    <button id="send-btn-id" name="send-btn-id" type="button" class="btn btn-default">Send</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -59,13 +59,13 @@ require_once 'module_controller.php';
                     console.log(data);
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "命令已发送！",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "命令发送失败！",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();
@@ -74,7 +74,7 @@ require_once 'module_controller.php';
                 }, "json");
             } else {
                 Toastify({
-                    text: "Lütfen alanları boş bırakmayınız...!",
+                    text: "Please do not leave the fields blank...!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

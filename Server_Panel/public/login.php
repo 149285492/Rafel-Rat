@@ -1,5 +1,5 @@
 <?php
-require_once '../private/session_manager.php';
+require_once './private/session_manager.php';
 
 if (isset($_POST['inputUsername']) && isset($_POST['inputPassword'])){
     $username = $_POST['inputUsername'];

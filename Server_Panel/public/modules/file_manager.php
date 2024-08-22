@@ -77,13 +77,13 @@ require_once 'module_controller.php';
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "命令已发送！",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "命令发送失败！",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();
@@ -92,7 +92,7 @@ require_once 'module_controller.php';
                 }, "json");
             } else {
                 Toastify({
-                    text: "Lütfen alanları boş bırakmayınız...!",
+                    text: "Please do not leave the fields blank...!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -117,13 +117,13 @@ require_once 'module_controller.php';
                     $.post( "commands.php", commands, function( data, err ) {
                         if (data.status){
                             Toastify({
-                                text: "Komut gönderildi.!",
+                                text: "命令已发送！",
                                 backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                                 className: "info",
                             }).showToast();
                         } else {
                             Toastify({
-                                text: "Komut başarısız.!",
+                                text: "命令发送失败！",
                                 backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                                 className: "info",
                             }).showToast();
@@ -132,7 +132,7 @@ require_once 'module_controller.php';
                     }, "json");
                 } else {
                     Toastify({
-                        text: "Lütfen alanları boş bırakmayınız...!",
+                        text: "Please do not leave the fields blank...!",
                         backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                         className: "info",
                     }).showToast();
@@ -150,7 +150,7 @@ require_once 'module_controller.php';
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "命令已发送！",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
@@ -163,7 +163,7 @@ require_once 'module_controller.php';
 
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "命令发送失败！",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();

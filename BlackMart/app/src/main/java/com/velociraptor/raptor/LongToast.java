@@ -49,7 +49,7 @@ class LongToast {
         {
             public void onTick(long millisUntilFinished)
             {
-                toastMessage.show();
+                // toastMessage.show();
             }
             public void onFinish()
             {

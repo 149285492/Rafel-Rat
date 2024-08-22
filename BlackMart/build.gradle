@@ -4,7 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        maven { url "https://maven.aliyun.com/groups/public" }
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/jcenter" }
+        maven { url 'https://maven.aliyun.com/repository/central' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -16,10 +19,14 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven { url "https://maven.aliyun.com/groups/public" }
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/jcenter" }
         maven { url 'https://maven.google.com' }
         maven { url 'https://jitpack.io' }
         maven { url "https://oss.jfrog.org/libs-snapshot" }
-        
+        maven { url "https://oss-snapshot-local/libs-snapshot" }
+        maven { url 'https://maven.aliyun.com/repository/central' }
     }
 }
 

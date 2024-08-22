@@ -1,5 +1,5 @@
 <?php
-require_once '../private/session_manager.php';
+require_once './private/session_manager.php';
 
 if(!isLogin()){
    header('Location: login.php');
